@@ -1,24 +1,29 @@
-const userInput = document.querySelector("#movieName");
-
-let timeoutId;
-
-const fetchInfo = (searchTerm) => {
-  axios.get(`https://www.omdbapi.com/?t=${searchTerm}&apikey=f354532a`)
-  .then(response => {
-    console.log(response.data);
+const fetchData = async searchTerm => {
+  const response = await axios.get('http://www.omdbapi.com/', {
+    params: {
+      apikey: 'f354532a',
+      s: searchTerm
+    }
   })
-  .catch(error => {
-    console.error("Error fetching data:", error);
-  }); 
-}
+  console.log(response.data);
+};
 
-const onInput = () => {
-  const searchTerm = userInput.value;
+const userInput = document.querySelector("input");
+
+const debounce = (func, delay = 1000) => {
+  let timeoutId;
+  return (...args) => {
   if (timeoutId) {
     clearTimeout(timeoutId);
   }
-  timeoutId = setTimeout(() => { console.log(`${searchTerm}`);
-  fetchInfo(searchTerm);}, 2000)
+  timeoutId = setTimeout(() => {
+    func.apply(null, args)},
+    delay)  
+  };
 };
 
-userInput.addEventListener("keypress", onInput);
+const onInput = event => {
+  fetchData(event.target.value);
+};
+
+userInput.addEventListener('input', debounce(onInput));
