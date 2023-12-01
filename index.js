@@ -5,6 +5,11 @@ const fetchData = async searchTerm => {
       s: searchTerm
     }
   })
+  .catch(() =>{
+  })
+  if (response.data.Error){
+    return [];
+  }
   return response.data.Search;
 };
 
@@ -17,12 +22,10 @@ const onInput = async () => {
   for (let movie of movies){
     const div = document.createElement('div');
     div.innerHTML = `
-    <li>
     <p>${movie.Title}</p>
     <img src="${movie.Poster}" alt="image of one movie poster">
-    </li>
     `
-    document.body.append(div);
+    document.querySelector("#target").append(div);
   }
 };
 
