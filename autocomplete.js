@@ -1,4 +1,4 @@
-const createAutoComplete = ({ root, renderOption }) => {
+const createAutoComplete = ({ root, renderOption, onOptionSelect }) => {
   // expect the config object to have a root element
   root.innerHTML = ` 
   <label> <b>Search for a Movie</b></label>
@@ -18,23 +18,22 @@ const createAutoComplete = ({ root, renderOption }) => {
       dropdown.classList.remove('is-active');
       return;
     }
-
     resultsWrapper.innerHTML = "";
-
     dropdown.classList.add('is-active');
+
     for (let movie of movies) {
       const option = document.createElement('a');
 
       option.classList.add('dropdown-item');
       option.innerHTML = renderOption(movie);
 
+      resultsWrapper.appendChild(option);
+      
       option.addEventListener('click', () => {
         dropdown.classList.remove('is-active');
-        input.value = `${movie.Title}`;
-        onMovieSelect(movie);
+        input.value = movie.Title;
+        onOptionSelect(movie);
       })
-
-      resultsWrapper.appendChild(option);
     }
   };
 
