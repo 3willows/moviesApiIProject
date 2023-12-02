@@ -4,9 +4,6 @@ const autCompleteConfig = {
     return `
     <img src="${imgSrc}"> ${movie.Title} (${movie.Year})`
   },
-  onOptionSelect(movie) {
-    onMovieSelect(movie);
-  },
   inputValue(movie) {
     return movie.Title;
   },
@@ -20,7 +17,20 @@ const autCompleteConfig = {
 createAutoComplete({
   ...autCompleteConfig,
   root: document.querySelector("#left-autocomplete"),
-  });
+  onOptionSelect(movie) {
+    document.querySelector(".tutorial").classList.add('is-hidden');
+    onMovieSelect(movie, document.querySelector("#left-summary"), 'left');
+  }
+});
+
+createAutoComplete({
+  ...autCompleteConfig,
+  root: document.querySelector("#right-autocomplete"),
+  onOptionSelect(movie) {
+    document.querySelector(".tutorial").classList.add('is-hidden');
+    onMovieSelect(movie, document.querySelector("#right-summary"), 'right');
+  }
+});
 
 const fetchData = async searchTerm => {
   const response = await axios.get('http://www.omdbapi.com/', {
@@ -37,7 +47,10 @@ const fetchData = async searchTerm => {
   return response.data.Search;
 };
 
-const onMovieSelect = async movie => {
+let leftMovie;
+let rightMovie;
+
+const onMovieSelect = async (movie, summaryElement, side) => {
   const response = await axios.get('http://www.omdbapi.com/', {
     params: {
       apikey: 'f354532a',
@@ -46,7 +59,24 @@ const onMovieSelect = async movie => {
   })
   // console.log(response.data);
 
-  document.querySelector('#summary').innerHTML = movieTemplate(response.data);
+  summaryElement.innerHTML = movieTemplate(response.data);
+
+  if (side === 'left'){
+    leftMovie = response.data;
+  }
+  if (side === 'right'){
+    rightMovie = response.data;
+  }
+
+  if (leftMovie && rightMovie){
+    runComparison();
+  }
+}
+
+const runComparison = () => {
+  console.log ("time for comparison")
+  console.log (leftMovie)
+  console.log (rightMovie)
 }
 
 const movieTemplate = (movieDetail) => {
