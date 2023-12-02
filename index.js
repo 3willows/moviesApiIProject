@@ -37,19 +37,19 @@ const onInput = async (event) => {
 
   dropdown.classList.add('is-active');
   for (let movie of movies) {
-    const optionAnchor = document.createElement('a');
+    const option = document.createElement('a');
     const imgSrc = movie.Poster === "N/A" ? '' : movie.Poster;
 
-    optionAnchor.classList.add('dropdown-item')
-    optionAnchor.innerHTML = `<img src="${imgSrc}" />${movie.Title}`
+    option.classList.add('dropdown-item')
+    option.innerHTML = `<img src="${imgSrc}" />${movie.Title}`
 
-    optionAnchor.addEventListener('click', () => {
+    option.addEventListener('click', () => {
       dropdown.classList.remove('is-active');
       userInput.value = `${movie.Title}`;
       onMovieSelect(movie);
     })
 
-    resultsWrapper.appendChild(optionAnchor);
+    resultsWrapper.appendChild(option);
   }
 };
 
