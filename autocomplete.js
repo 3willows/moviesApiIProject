@@ -1,7 +1,12 @@
-const createAutoComplete = ({ root, renderOption, onOptionSelect, inputValue, obtainInfo }) => {
+const createAutoComplete = ({
+  root,
+  renderOption,
+  onOptionSelect,
+  inputValue,
+  obtainInfo }) => {
   // expect the config object to have a root element
   root.innerHTML = ` 
-  <label> <b>Search for a item</b></label>
+  <label> <b>Search</b></label>
   <input class = "input" />
   <div class="dropdown">
   <div class="dropdown-menu">
@@ -28,7 +33,7 @@ const createAutoComplete = ({ root, renderOption, onOptionSelect, inputValue, ob
       option.innerHTML = renderOption(item);
 
       resultsWrapper.appendChild(option);
-      
+
       option.addEventListener('click', () => {
         dropdown.classList.remove('is-active');
         input.value = inputValue(item)
