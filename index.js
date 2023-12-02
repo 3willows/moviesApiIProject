@@ -1,5 +1,4 @@
-createAutoComplete({
-  root: document.querySelector(".autocomplete"),
+const autCompleteConfig = {
   renderOption(movie) {
     const imgSrc = movie.Poster === "N/A" ? '' : movie.Poster;
     return `
@@ -16,7 +15,12 @@ createAutoComplete({
     // my approach here differs from the tutorial.  
     // The tutorial sticks the whole function here; I do it slightly differly by referencing it.  The tutorial adds the async here, where I leave it down below (could cause bugs later).
   }
-});
+};
+
+createAutoComplete({
+  ...autCompleteConfig,
+  root: document.querySelector("#left-autocomplete"),
+  });
 
 const fetchData = async searchTerm => {
   const response = await axios.get('http://www.omdbapi.com/', {
@@ -32,7 +36,7 @@ const fetchData = async searchTerm => {
   }
   return response.data.Search;
 };
-//example
+
 const onMovieSelect = async movie => {
   const response = await axios.get('http://www.omdbapi.com/', {
     params: {
