@@ -1,3 +1,23 @@
+createAutoComplete({
+  root: document.querySelector(".autocomplete"),
+  renderOption(movie) {
+    const imgSrc = movie.Poster === "N/A" ? '' : movie.Poster;
+    return `
+    <img src="${imgSrc}"> ${movie.Title} (${movie.Year})`
+  },
+  onOptionSelect(movie) {
+    onMovieSelect(movie);
+  },
+  inputValue(movie) {
+    return movie.Title;
+  },
+  obtainInfo(searchTerm) {
+    return fetchData(searchTerm);
+    // my approach here differs from the tutorial.  
+    // The tutorial sticks the whole function here; I do it slightly differly by referencing it.  The tutorial adds the async here, where I leave it down below (could cause bugs later).
+  }
+});
+
 const fetchData = async searchTerm => {
   const response = await axios.get('http://www.omdbapi.com/', {
     params: {
@@ -12,18 +32,6 @@ const fetchData = async searchTerm => {
   }
   return response.data.Search;
 };
-
-createAutoComplete({
-  root: document.querySelector(".autocomplete"),
-  renderOption(movie) {
-    const imgSrc = movie.Poster === "N/A" ? '' : movie.Poster;
-    return `
-    <img src="${imgSrc}"> ${movie.Title} (${movie.Year})`
-  },
-  onOptionSelect(movie){
-    onMovieSelect(movie);
-  }
-});
 
 const onMovieSelect = async movie => {
   const response = await axios.get('http://www.omdbapi.com/', {
