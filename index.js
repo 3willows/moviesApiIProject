@@ -27,9 +27,15 @@ const dropdown = document.querySelector(".dropdown");
 const resultsWrapper = document.querySelector(".results");
 
 const onInput = async () => {
-  resultsWrapper.innerHTML = "";
   // makes more sense to do this before calling wait;
   const movies = await fetchData(userInput.value);
+  if (!movies.length) {
+    dropdown.classList.remove('is-active');
+    return;
+  }
+
+  resultsWrapper.innerHTML = "";
+
   // same as event.target.value;
   console.log(movies);
   dropdown.classList.add('is-active');
@@ -38,8 +44,12 @@ const onInput = async () => {
     const imgSrc = movie.Poster === "N/A" ? '' : movie.Poster;
 
     optionAnchor.classList.add('dropdown-item')
-    
-    optionAnchor.innerHTML = `<img src="${imgSrc}" />${movie.Title}`      
+    optionAnchor.innerHTML = `<img src="${imgSrc}" />${movie.Title}`
+
+    optionAnchor.addEventListener('click', () => {
+      dropdown.classList.remove('is-active');
+      userInput.value = `${movie.Title}`;
+    })
 
     resultsWrapper.appendChild(optionAnchor);
   }
@@ -48,3 +58,7 @@ const onInput = async () => {
 const delayedInput = debounce(onInput);
 
 userInput.addEventListener('input', delayedInput);
+document.addEventListener('click', event => {
+  if (!root.contains(event.target))
+    dropdown.classList.remove('is-active');
+})
