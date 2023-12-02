@@ -8,7 +8,7 @@ const createAutoComplete = ({ root }) => {
     <div class="dropdown-content results">
     </div>`;
 
-  const userInput = root.querySelector("input");
+  const input = root.querySelector("input");
   const dropdown = root.querySelector(".dropdown");
   const resultsWrapper = root.querySelector(".results");
 
@@ -30,7 +30,7 @@ const createAutoComplete = ({ root }) => {
 
       option.addEventListener('click', () => {
         dropdown.classList.remove('is-active');
-        userInput.value = `${movie.Title}`;
+        input.value = `${movie.Title}`;
         onMovieSelect(movie);
       })
 
@@ -40,7 +40,7 @@ const createAutoComplete = ({ root }) => {
 
   const delayedInput = debounce(onInput);
 
-  userInput.addEventListener('input', delayedInput);
+  input.addEventListener('input', delayedInput);
 
   document.addEventListener('click', event => {
     if (!root.contains(event.target))
