@@ -1,4 +1,4 @@
-const createAutoComplete = ({ root }) => {
+const createAutoComplete = ({ root, renderOption }) => {
   // expect the config object to have a root element
   root.innerHTML = ` 
   <label> <b>Search for a Movie</b></label>
@@ -26,7 +26,7 @@ const createAutoComplete = ({ root }) => {
       const option = document.createElement('a');
 
       option.classList.add('dropdown-item');
-      option.innerHTML = RTCSessionDescription
+      option.innerHTML = renderOption(movie);
 
       option.addEventListener('click', () => {
         dropdown.classList.remove('is-active');
