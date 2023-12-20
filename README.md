@@ -1,3 +1,3 @@
 ## TO DO:
 
-- [ ] fix the [version deployed](https://3willows.github.io/moviesApiProject/) 
+- [ ] fix the [deployed version](https://3willows.github.io/moviesApiProject/) 
